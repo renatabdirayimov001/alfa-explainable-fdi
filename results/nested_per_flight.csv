@@ -1,0 +1,93 @@
+FeatureSet,Flight,TrueClass,tau,K,Detected,Delay_s,IsolatedAs
+RAW,carbonZ_2018-07-18-15-53-31_1_engine_failure,Engine,0.7,5,1,5.2340042591095,Engine
+RAW,carbonZ_2018-07-18-15-53-31_2_engine_failure,Engine,0.8,3,1,4.14322733879089,Engine
+RAW,carbonZ_2018-07-18-16-22-01_engine_failure_with_emr_traj,Engine,0.75,3,1,4.31313967704773,Engine
+RAW,carbonZ_2018-07-18-16-37-39_1_no_failure,Normal,0.8,3,0,NaN,
+RAW,carbonZ_2018-07-18-16-37-39_2_engine_failure_with_emr_traj,Engine,0.8,3,1,3.4171462059021,Engine
+RAW,carbonZ_2018-07-30-16-29-45_engine_failure_with_emr_traj,Engine,0.75,5,1,2.56112313270569,Engine
+RAW,carbonZ_2018-07-30-16-39-00_1_engine_failure,Engine,0.75,5,1,2.27032971382141,Engine
+RAW,carbonZ_2018-07-30-16-39-00_2_engine_failure,Engine,0.8,3,1,2.1060848236084,Engine
+RAW,carbonZ_2018-07-30-16-39-00_3_no_failure,Normal,0.8,3,0,NaN,
+RAW,carbonZ_2018-07-30-17-10-45_engine_failure_with_emr_traj,Engine,0.8,3,1,2.44074249267578,Engine
+RAW,carbonZ_2018-07-30-17-20-01_engine_failure_with_emr_traj,Engine,0.8,3,1,1.95028233528137,Engine
+RAW,carbonZ_2018-07-30-17-36-35_engine_failure_with_emr_traj,Engine,0.8,3,1,1.73285722732544,Engine
+RAW,carbonZ_2018-07-30-17-46-31_engine_failure_with_emr_traj,Engine,0.8,3,1,1.84830856323242,Engine
+RAW,carbonZ_2018-09-11-11-56-30_engine_failure,Engine,0.75,5,1,2.3988938331604,Engine
+RAW,carbonZ_2018-09-11-14-16-55_no_failure,Normal,0.8,3,0,NaN,
+RAW,carbonZ_2018-09-11-14-22-07_1_engine_failure,Engine,0.8,3,1,1.55730295181274,Engine
+RAW,carbonZ_2018-09-11-14-22-07_2_engine_failure,Engine,0.8,3,1,1.53945088386536,Engine
+RAW,carbonZ_2018-09-11-14-41-38_no_failure,Normal,0.8,3,0,NaN,
+RAW,carbonZ_2018-09-11-14-41-51_elevator_failure,Elevator,0.8,3,0,NaN,Missed
+RAW,carbonZ_2018-09-11-14-52-54_left_aileron__right_aileron__failure,Aileron,0.75,3,0,NaN,Missed
+RAW,carbonZ_2018-09-11-15-05-11_1_elevator_failure,Elevator,0.75,3,0,NaN,Missed
+RAW,carbonZ_2018-09-11-15-05-11_2_no_failure,Normal,0.75,3,0,NaN,
+RAW,carbonZ_2018-09-11-15-06-34_1_rudder_right_failure,Rudder,0.8,3,1,1.95662069320679,Rudder
+RAW,carbonZ_2018-09-11-15-06-34_2_rudder_right_failure,Rudder,0.8,3,1,1.51890778541565,Rudder
+RAW,carbonZ_2018-09-11-15-06-34_3_rudder_left_failure,Rudder,0.7,7,0,NaN,Missed
+RAW,carbonZ_2018-09-11-17-27-13_1_rudder_zero__left_aileron_failure,Multi,0.8,3,0,NaN,Missed
+RAW,carbonZ_2018-09-11-17-27-13_2_both_ailerons_failure,Aileron,0.8,3,0,NaN,Missed
+RAW,carbonZ_2018-09-11-17-55-30_1_right_aileron_failure,Aileron,0.8,3,0,NaN,Missed
+RAW,carbonZ_2018-09-11-17-55-30_2_left_aileron_failure,Aileron,0.75,3,0,NaN,Missed
+RAW,carbonZ_2018-10-05-14-34-20_1_no_failure,Normal,0.85,3,0,NaN,
+RAW,carbonZ_2018-10-05-14-34-20_2_right_aileron_failure_with_emr_traj,Aileron,0.75,7,0,NaN,Missed
+RAW,carbonZ_2018-10-05-14-37-22_1_no_failure,Normal,0.75,5,0,NaN,
+RAW,carbonZ_2018-10-05-14-37-22_2_right_aileron_failure,Aileron,0.75,3,0,NaN,Missed
+RAW,carbonZ_2018-10-05-14-37-22_3_left_aileron_failure,Aileron,0.8,3,0,NaN,Missed
+RAW,carbonZ_2018-10-05-15-52-12_1_no_failure,Normal,0.8,3,0,NaN,
+RAW,carbonZ_2018-10-05-15-52-12_2_no_failure,Normal,0.8,3,0,NaN,
+RAW,carbonZ_2018-10-05-15-52-12_3_engine_failure_with_emr_traj,Engine,0.75,3,1,1.34532999992371,Engine
+RAW,carbonZ_2018-10-05-15-55-10_engine_failure_with_emr_traj,Engine,0.8,3,1,2.58889722824097,Engine
+RAW,carbonZ_2018-10-05-16-04-46_engine_failure_with_emr_traj,Engine,0.75,3,1,1.5812394618988,Engine
+RAW,carbonZ_2018-10-18-11-03-57_engine_failure_with_emr_traj,Engine,0.75,5,1,2.27417373657227,Engine
+RAW,carbonZ_2018-10-18-11-04-00_engine_failure_with_emr_traj,Engine,0.8,3,1,1.28357195854187,Engine
+RAW,carbonZ_2018-10-18-11-04-08_1_engine_failure_with_emr_traj,Engine,0.8,5,1,5.21698951721191,Engine
+RAW,carbonZ_2018-10-18-11-04-08_2_engine_failure_with_emr_traj,Engine,0.75,5,1,2.75362586975098,Engine
+RAW,carbonZ_2018-10-18-11-04-35_engine_failure_with_emr_traj,Engine,0.8,3,0,NaN,Missed
+RAW,carbonZ_2018-10-18-11-06-06_engine_failure_with_emr_traj,Engine,0.75,3,1,1.44642567634583,Engine
+RAW,carbonZ_2018-10-18-11-08-24_no_failure,Normal,0.75,5,0,NaN,
+RES+CMD+EFF (proposed),carbonZ_2018-07-18-15-53-31_1_engine_failure,Engine,0.75,9,1,7.2340042591095,Engine
+RES+CMD+EFF (proposed),carbonZ_2018-07-18-15-53-31_2_engine_failure,Engine,0.7,9,1,4.64322733879089,Engine
+RES+CMD+EFF (proposed),carbonZ_2018-07-18-16-22-01_engine_failure_with_emr_traj,Engine,0.7,9,1,5.31313967704773,Engine
+RES+CMD+EFF (proposed),carbonZ_2018-07-18-16-37-39_1_no_failure,Normal,0.8,3,0,NaN,
+RES+CMD+EFF (proposed),carbonZ_2018-07-18-16-37-39_2_engine_failure_with_emr_traj,Engine,0.8,3,1,2.9171462059021,Engine
+RES+CMD+EFF (proposed),carbonZ_2018-07-30-16-29-45_engine_failure_with_emr_traj,Engine,0.7,9,1,5.06112313270569,Engine
+RES+CMD+EFF (proposed),carbonZ_2018-07-30-16-39-00_1_engine_failure,Engine,0.75,7,1,3.77032971382141,Engine
+RES+CMD+EFF (proposed),carbonZ_2018-07-30-16-39-00_2_engine_failure,Engine,0.75,9,1,7.6060848236084,Engine
+RES+CMD+EFF (proposed),carbonZ_2018-07-30-16-39-00_3_no_failure,Normal,0.8,3,0,NaN,
+RES+CMD+EFF (proposed),carbonZ_2018-07-30-17-10-45_engine_failure_with_emr_traj,Engine,0.75,9,1,8.94074249267578,Engine
+RES+CMD+EFF (proposed),carbonZ_2018-07-30-17-20-01_engine_failure_with_emr_traj,Engine,0.7,7,1,3.95028233528137,Engine
+RES+CMD+EFF (proposed),carbonZ_2018-07-30-17-36-35_engine_failure_with_emr_traj,Engine,0.75,7,1,3.73285722732544,Engine
+RES+CMD+EFF (proposed),carbonZ_2018-07-30-17-46-31_engine_failure_with_emr_traj,Engine,0.75,5,1,3.34830856323242,Engine
+RES+CMD+EFF (proposed),carbonZ_2018-09-11-11-56-30_engine_failure,Engine,0.75,7,1,3.8988938331604,Engine
+RES+CMD+EFF (proposed),carbonZ_2018-09-11-14-16-55_no_failure,Normal,0.8,3,0,NaN,
+RES+CMD+EFF (proposed),carbonZ_2018-09-11-14-22-07_1_engine_failure,Engine,0.8,3,1,3.05730295181274,Engine
+RES+CMD+EFF (proposed),carbonZ_2018-09-11-14-22-07_2_engine_failure,Engine,0.75,9,1,4.53945088386536,Engine
+RES+CMD+EFF (proposed),carbonZ_2018-09-11-14-41-38_no_failure,Normal,0.75,7,0,NaN,
+RES+CMD+EFF (proposed),carbonZ_2018-09-11-14-41-51_elevator_failure,Elevator,0.75,7,0,NaN,Missed
+RES+CMD+EFF (proposed),carbonZ_2018-09-11-14-52-54_left_aileron__right_aileron__failure,Aileron,0.8,3,0,NaN,Missed
+RES+CMD+EFF (proposed),carbonZ_2018-09-11-15-05-11_1_elevator_failure,Elevator,0.7,9,0,NaN,Missed
+RES+CMD+EFF (proposed),carbonZ_2018-09-11-15-05-11_2_no_failure,Normal,0.75,9,0,NaN,
+RES+CMD+EFF (proposed),carbonZ_2018-09-11-15-06-34_1_rudder_right_failure,Rudder,0.7,9,1,7.45662069320679,Rudder
+RES+CMD+EFF (proposed),carbonZ_2018-09-11-15-06-34_2_rudder_right_failure,Rudder,0.7,9,1,5.01890778541565,Rudder
+RES+CMD+EFF (proposed),carbonZ_2018-09-11-15-06-34_3_rudder_left_failure,Rudder,0.7,9,0,NaN,Missed
+RES+CMD+EFF (proposed),carbonZ_2018-09-11-17-27-13_1_rudder_zero__left_aileron_failure,Multi,0.75,7,0,NaN,Missed
+RES+CMD+EFF (proposed),carbonZ_2018-09-11-17-27-13_2_both_ailerons_failure,Aileron,0.75,7,1,5.75042366981506,Aileron
+RES+CMD+EFF (proposed),carbonZ_2018-09-11-17-55-30_1_right_aileron_failure,Aileron,0.75,7,1,19.9935805797577,Aileron
+RES+CMD+EFF (proposed),carbonZ_2018-09-11-17-55-30_2_left_aileron_failure,Aileron,0.75,7,0,NaN,Missed
+RES+CMD+EFF (proposed),carbonZ_2018-10-05-14-34-20_1_no_failure,Normal,0.75,7,0,NaN,
+RES+CMD+EFF (proposed),carbonZ_2018-10-05-14-34-20_2_right_aileron_failure_with_emr_traj,Aileron,0.7,9,0,NaN,Missed
+RES+CMD+EFF (proposed),carbonZ_2018-10-05-14-37-22_1_no_failure,Normal,0.8,3,0,NaN,
+RES+CMD+EFF (proposed),carbonZ_2018-10-05-14-37-22_2_right_aileron_failure,Aileron,0.8,5,0,NaN,Missed
+RES+CMD+EFF (proposed),carbonZ_2018-10-05-14-37-22_3_left_aileron_failure,Aileron,0.85,3,0,NaN,Missed
+RES+CMD+EFF (proposed),carbonZ_2018-10-05-15-52-12_1_no_failure,Normal,0.7,9,0,NaN,
+RES+CMD+EFF (proposed),carbonZ_2018-10-05-15-52-12_2_no_failure,Normal,0.75,7,0,NaN,
+RES+CMD+EFF (proposed),carbonZ_2018-10-05-15-52-12_3_engine_failure_with_emr_traj,Engine,0.75,7,1,4.34532999992371,Engine
+RES+CMD+EFF (proposed),carbonZ_2018-10-05-15-55-10_engine_failure_with_emr_traj,Engine,0.8,7,1,4.08889722824097,Engine
+RES+CMD+EFF (proposed),carbonZ_2018-10-05-16-04-46_engine_failure_with_emr_traj,Engine,0.75,7,1,3.5812394618988,Engine
+RES+CMD+EFF (proposed),carbonZ_2018-10-18-11-03-57_engine_failure_with_emr_traj,Engine,0.8,3,1,3.27417373657227,Engine
+RES+CMD+EFF (proposed),carbonZ_2018-10-18-11-04-00_engine_failure_with_emr_traj,Engine,0.75,9,1,4.28357195854187,Engine
+RES+CMD+EFF (proposed),carbonZ_2018-10-18-11-04-08_1_engine_failure_with_emr_traj,Engine,0.75,9,1,5.21698951721191,Engine
+RES+CMD+EFF (proposed),carbonZ_2018-10-18-11-04-08_2_engine_failure_with_emr_traj,Engine,0.75,7,1,3.75362586975098,Engine
+RES+CMD+EFF (proposed),carbonZ_2018-10-18-11-04-35_engine_failure_with_emr_traj,Engine,0.75,9,1,4.40044116973877,Engine
+RES+CMD+EFF (proposed),carbonZ_2018-10-18-11-06-06_engine_failure_with_emr_traj,Engine,0.75,7,1,3.44642567634583,Engine
+RES+CMD+EFF (proposed),carbonZ_2018-10-18-11-08-24_no_failure,Normal,0.75,7,0,NaN,

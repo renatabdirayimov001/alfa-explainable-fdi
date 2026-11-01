@@ -25,10 +25,17 @@ Unzip it in the repository root so that the folder `processed` (one sub-folder p
 cd code
 alfa_fdi_main   % LOFO evaluation of 4 feature sets, SHAP audit, figures (about 30 min)
 alfa_post       % operating-point sweep for all sets, tables at tau = 0.75, K = 7 (run in the same session)
+alfa_nested     % nested selection of (tau, K) per test flight by inner 5-fold CV (run in the same session)
 ```
 Outputs are written to `results/` and `results_post/`.
 
-## Main results (tau = 0.75, K = 7)
+## Nested results (tau, K chosen without the test flight, budget 2 false alarms/h)
+| Feature set | Detection rate | Isolation acc. | False alarms/h | Median delay (s) |
+|---|---|---|---|---|
+| RAW | 0.686 | 0.686 | 0.95 | 2.19 |
+| RES+CMD+EFF (proposed) | 0.771 | 0.771 | 0.95 | 4.35 |
+
+## Common operating point (tau = 0.75, K = 7, optimistic reference)
 | Feature set | Detection rate | Isolation acc. | False alarms/h | Median delay (s) |
 |---|---|---|---|---|
 | RAW | 0.686 | 0.686 | 0.0 | 3.66 |
