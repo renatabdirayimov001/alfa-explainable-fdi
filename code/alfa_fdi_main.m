@@ -29,7 +29,7 @@ if ~exist(cfg.outDir,'dir'), mkdir(cfg.outDir); end
 CL       = ["Normal","Engine","Aileron","Rudder","Elevator"];
 faultCls = CL(2:end);
 % a priori fault signatures (expected dominant residuals), used for the SHAP check
-expected.Engine   = {'e_aspd','u_thr','e_alt','e_vz'};
+expected.Engine   = {'e_aspd','e_alt','e_vz'};
 expected.Aileron  = {'e_roll','eff_roll_gain','eff_roll_corr'};
 expected.Rudder   = {'e_yaw','e_xtrk','eff_yaw_gain','eff_yaw_corr'};
 expected.Elevator = {'e_pitch','e_alt','e_vz','eff_pitch_gain','eff_pitch_corr'};
@@ -121,48 +121,72 @@ trAll = fcls ~= "Multi";
 XtabAll = array2table(sets.X{iProp}, 'VariableNames', propNames);
 mdlAll  = trainModel(XtabAll(trAll,:), Y(trAll), cfg);
 cm = compact(mdlAll); info = whos('cm');
-tic; predict(cm, XtabAll(1:min(2000,height(XtabAll)),:)); tInf = toc/min(2000,height(XtabAll));
-fprintf('\nCompact model size: %.1f kB | inference: %.3f ms per window\n', info.bytes/1024, 1e3*tInf);
+nT = min(2000,height(XtabAll)); tP = zeros(20,1);
+for rr = 1:20, tic; predict(cm, XtabAll(1:nT,:)); tP(rr) = toc/nT; end
+tInf = median(tP);
+% feature extraction time per window (one flight, 20 repetitions)
+[Rt, Rwt, Cmt] = makeSignals(F(1).S); nWt = numel(W:STEP:height(Rt)); tF = zeros(20,1);
+for rr = 1:20
+    tic; winFeat(Rt, W, STEP, ''); winFeat(Cmt, W, STEP, ''); effFeat(Rt, Rwt, W, STEP); tF(rr) = toc/nWt;
+end
+tFeat = median(tF);
+fprintf('\nCompact model size: %.1f kB | inference: %.3f ms/window | features: %.3f ms/window (median of 20 runs, MATLAB Online CPU)\n', info.bytes/1024, 1e3*tInf, 1e3*tFeat);
 
 %% ------------------------------------------------------------- SHAP + physical consistency
 groups = regexprep(propNames, '_(mean|std|maxabs|slope|last)$', '');
 G      = unique(groups, 'stable');
-bgIdx  = find(Y == "Normal");
-bgIdx  = bgIdx(randperm(numel(bgIdx), min(cfg.nBg, numel(bgIdx))));
-Xbg    = XtabAll(bgIdx,:);
+Xp     = sets.X{iProp};
 Phi    = zeros(numel(faultCls), numel(G));
-top1   = zeros(1,numel(faultCls)); mass = zeros(1,numel(faultCls));
+top1   = zeros(1,numel(faultCls)); mass = zeros(1,numel(faultCls)); nFl = zeros(1,numel(faultCls)); nWin = zeros(1,numel(faultCls));
+% Held-out SHAP: each explained window belongs to a LOFO test flight and is explained by the
+% model of that fold; background = normal windows from that fold's training flights only.
 for c = 1:numel(faultCls)
-    qi = find(Y == faultCls(c) & fcls ~= "Multi");
-    qi = qi(randperm(numel(qi), min(cfg.nQ, numel(qi))));
-    A  = zeros(numel(qi), numel(G));
-    for k = 1:numel(qi)
-        ex  = shapley(mdlAll, Xbg, 'QueryPoint', XtabAll(qi(k),:));
-        phi = classShap(ex, faultCls(c), propNames);
-        for g = 1:numel(G), A(k,g) = sum(abs(phi(strcmp(groups, G{g})))); end
+    fl = unique(fid(Y == faultCls(c) & fcls ~= "Multi"))';
+    rng(100 + c); per = ceil(cfg.nQ / numel(fl)); pick = [];
+    for f = fl
+        w = find(fid == f & Y == faultCls(c)); w = w(randperm(numel(w), min(per, numel(w))));
+        pick = [pick; f*ones(numel(w),1), w(:)]; %#ok<AGROW>
+    end
+    pick = pick(randperm(size(pick,1), min(cfg.nQ, size(pick,1))), :);
+    A = zeros(size(pick,1), numel(G));
+    for f = unique(pick(:,1))'
+        tr  = fid ~= f & fcls ~= "Multi";
+        mdl = trainModel(array2table(Xp(tr,:), 'VariableNames', propNames), Y(tr), cfg);
+        bg  = find(tr & Y == "Normal"); bg = bg(randperm(numel(bg), min(cfg.nBg, numel(bg))));
+        Xbg = array2table(Xp(bg,:), 'VariableNames', propNames);
+        for r = find(pick(:,1) == f)'
+            ex  = shapley(mdl, Xbg, 'QueryPoint', array2table(Xp(pick(r,2),:), 'VariableNames', propNames));
+            phi = classShap(ex, faultCls(c), propNames);
+            for g = 1:numel(G), A(r,g) = sum(abs(phi(strcmp(groups, G{g})))); end
+        end
     end
     ex_c = expected.(char(faultCls(c)));
     inExp = ismember(G, ex_c);
     [~, imax] = max(A, [], 2);
-    top1(c) = mean(inExp(imax));                       % top-1 hit rate
-    mass(c) = mean(sum(A(:,inExp),2) ./ sum(A,2));      % attribution mass on expected residuals
+    top1(c) = mean(inExp(imax));
+    mass(c) = mean(sum(A(:,inExp),2) ./ sum(A,2));
     Phi(c,:) = mean(A, 1);
-    fprintf('SHAP %-8s top-1 hit = %.2f | expected mass = %.2f (n=%d)\n', faultCls(c), top1(c), mass(c), numel(qi));
+    nFl(c) = numel(unique(pick(:,1))); nWin(c) = size(pick,1);
+    fprintf('SHAP %-8s top-1 hit = %.2f | expected mass = %.2f (%d windows from %d test flights)\n', faultCls(c), top1(c), mass(c), nWin(c), nFl(c));
 end
-consistency = table(faultCls', top1', mass', 'VariableNames', {'Class','Top1Hit','ExpectedMass'});
+consistency = table(faultCls', top1', mass', nWin', nFl', 'VariableNames', {'Class','Top1Hit','ExpectedMass','Windows','Flights'});
 writetable(consistency, fullfile(cfg.outDir,'shap_consistency.csv'));
-save(fullfile(cfg.outDir,'results.mat'), 'Msum','Mall','perFlight','Phi','G','consistency','cfg','resNames','rawNames','cmdNames','effNames','sweep');
+save(fullfile(cfg.outDir,'results.mat'), 'Msum','Mall','perFlight','Phi','G','consistency','cfg','resNames','rawNames','cmdNames','effNames','sweep','tInf','tFeat');
 
 %% ------------------------------------------------------------- figures
-makeFigures(F, Mall, Pall, Y, fcls, Phi, G, faultCls, expected, sets, CL, cfg, iProp, sweep);
+try
+    makeFigures(F, Mall, Pall, Y, fcls, Phi, G, faultCls, expected, sets, CL, cfg, iProp, sweep);
+catch e
+    fprintf('Figure export problem (results are saved): %s\n', e.message);
+end
 
 % bundle everything for sharing
 fid2 = fopen(fullfile(cfg.outDir,'summary.txt'),'w');
 fprintf(fid2,'%s\n', evalc('disp(Msum)'), evalc('disp(sweep)'), evalc('disp(consistency)'), evalc('disp(perFlight)'));
-fprintf(fid2,'Model size %.1f kB, inference %.3f ms/window\n', info.bytes/1024, 1e3*tInf);
+fprintf(fid2,'Model size %.1f kB, inference %.3f ms/window, features %.3f ms/window\n', info.bytes/1024, 1e3*tInf, 1e3*tFeat);
 fprintf(fid2,'%s\n', strjoin(G, ', ')); fprintf(fid2,'%s\n', evalc('disp(Phi)'));
 fclose(fid2);
-zip('alfa_results.zip', cfg.outDir);
+% zip('alfa_results.zip', cfg.outDir);
 fprintf('\nDone. All outputs are in ./%s\n', cfg.outDir);
 
 %% ===================================================================== functions
@@ -236,10 +260,10 @@ function [R, Rw, Cm] = makeSignals(S)
     R.e_vx    = S.vdes_x - S.vmeas_x;              % velocity residuals
     R.e_vy    = S.vdes_y - S.vmeas_y;
     R.e_vz    = S.vdes_z - S.vmeas_z;
-    R.u_thr   = S.throttle;                        % control effort
-    Rw = table(S.roll_m, S.pitch_m, S.airspeed_m, S.groundspeed, S.throttle, S.climb, ...
+    % NOTE: throttle (vfr_hud) is excluded: it drops to 0 at the injected engine failure (leakage)
+    Rw = table(S.roll_m, S.pitch_m, S.airspeed_m, S.groundspeed, S.climb, ...
                S.wx, S.wy, S.wz, S.accx, S.accy, S.accz, 'VariableNames', ...
-               {'roll','pitch','aspd','gs','thr','climb','wx','wy','wz','ax','ay','az'});
+               {'roll','pitch','aspd','gs','climb','wx','wy','wz','ax','ay','az'});
     Cm = table(S.roll_c, S.pitch_c, S.airspeed_c, 'VariableNames', {'cmd_roll','cmd_pitch','cmd_aspd'});
 end
 
@@ -333,7 +357,7 @@ function M = evalMetrics(P, Y, T, fid, fcls, onsets, flab, cfg, CL)
                 isoPred(f) = "Missed";
             else
                 delay(f) = t(j) - onsets(f);
-                v = p(max(1,j-cfg.K+1):min(numel(p), j+10)); v = v(v ~= "Normal");
+                v = p(max(1,j-cfg.K+1):j); v = v(v ~= "Normal");   % causal: the K windows ending at the alarm
                 if isempty(v), isoPred(f) = "Normal"; else, isoPred(f) = string(mode(categorical(v))); end
             end
         end

@@ -1,6 +1,6 @@
 cff-version: 1.2.0
 message: "If you use this software, please cite it as below."
-title: "Explainable Fault Detection and Isolation for Fixed-Wing UAVs Using Physics-Informed Residuals (code and results)"
+title: "Leakage-Aware Evaluation of Explainable Fault Detection for Fixed-Wing UAVs (code and results)"
 authors:
   - family-names: "Abdirayimov"
     given-names: "Renat"

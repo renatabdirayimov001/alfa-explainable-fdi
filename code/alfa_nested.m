@@ -19,6 +19,7 @@ nest.faBudget = 2;                % false alarms per hour allowed in selection
 nest.tauGrid  = 0.5:0.05:0.95;
 nest.KGrid    = [3 5 7 9];
 o = 'results_nested'; if ~exist(o,'dir'), mkdir(o); end
+DetAll = {}; DelayAll = {}; IsoAll = {};
 
 nF = max(fid);
 eligible = find(flab ~= "Multi")';           % flights usable for inner training/validation
@@ -65,22 +66,42 @@ for s = nest.sets
     det   = [R.det]'; delay = [R.delay]'; iso = [R.iso]';
     faN = sum([R.faN]); faT = sum([R.faT]);
     row = table(sets.names(s), mean(det(fault)), mean(iso(fault) == flab(fault)), ...
-        median(delay(fault),'omitnan'), faN/(faT/3600), faN, ...
-        'VariableNames', {'FeatureSet','DetRate','IsolationAcc','MedianDelay_s','FA_per_hour','FA_episodes'});
+        median(delay(fault),'omitnan'), faN/(faT/3600), faN, faT/3600, ...
+        'VariableNames', {'FeatureSet','DetRate','IsolationAcc','MedianDelay_s','FA_per_hour','FA_episodes','FA_hours'});
     Summary = [Summary; row]; %#ok<AGROW>
     ch = table(repmat(sets.names(s),nF,1), string({F.name})', flab, [R.tau]', [R.K]', det, delay, iso, ...
         'VariableNames', {'FeatureSet','Flight','TrueClass','tau','K','Detected','Delay_s','IsolatedAs'});
     Choices = [Choices; ch]; %#ok<AGROW>
+    DetAll{end+1} = det; DelayAll{end+1} = delay; IsoAll{end+1} = iso; %#ok<SAGROW>
+    kM = flab == "Multi"; fprintf('  Multi (rudder+aileron) flight: %s\n', strjoin(iso(kM), ', '));
+    emr = contains(string({F.name})', 'emr_traj') & flab == "Engine"; ne = flab == "Engine" & ~emr;
+    fprintf('  Engine with emergency trajectory: %d/%d | without: %d/%d\n', sum(det(emr)), sum(emr), sum(det(ne)), sum(ne));
     % per-class detection for this set
     for c = ["Engine","Aileron","Rudder","Elevator"]
         k = flab == c;
         fprintf('  %-8s detected %d/%d, isolated %d/%d\n', c, sum(det(k)), sum(k), sum(iso(k)==c), sum(k));
     end
 end
+% 95% confidence intervals and paired test (flight level)
+fault = isfinite(onsets) & flab ~= "Multi"; nFa = sum(fault);
+CIlo = zeros(height(Summary),1); CIhi = CIlo; FAlo = CIlo; FAhi = CIlo;
+for i = 1:height(Summary)
+    x = sum(DetAll{i}(fault)); [~, ci] = binofit(x, nFa); CIlo(i) = ci(1); CIhi(i) = ci(2);
+    k = Summary.FA_episodes(i); hrs = Summary.FA_hours(i);
+    FAlo(i) = (k > 0) * chi2inv(0.025, 2*k) / 2 / hrs; FAhi(i) = chi2inv(0.975, 2*k + 2) / 2 / hrs;
+end
+Summary.Det_CI_low = CIlo; Summary.Det_CI_high = CIhi; Summary.FA_CI_low = FAlo; Summary.FA_CI_high = FAhi;
+if numel(DetAll) >= 2
+    a = DetAll{1}(fault); b = DetAll{end}(fault);
+    nb = sum(~a & b); nc = sum(a & ~b);
+    pMc = min(1, 2 * binocdf(min(nb, nc), nb + nc, 0.5));
+    fprintf('McNemar (exact), proposed vs RAW: %d flights only proposed, %d only RAW, p = %.3f\n', nb, nc, pMc);
+    Summary.McNemar_p = [NaN; pMc*ones(height(Summary)-1,1)];
+end
 disp(Summary);
 writetable(Summary, fullfile(o,'nested_summary.csv'));
 writetable(Choices, fullfile(o,'nested_per_flight.csv'));
-zip('nested_final.zip', o); disp('Tayyor: nested_final.zip');
+disp('Done.');
 
 %% ----------------------------------------------------------------- functions
 function mdl = trainModelN(X, y, cfg)
@@ -118,7 +139,7 @@ function r = flightEval(PR, t, onset, tau, K, step, CL)
             r.iso = "Missed";
         else
             r.det = true; r.delay = t(jj) - onset;
-            v = p(max(1, jj-K+1):min(numel(p), jj+10)); v = v(v ~= "Normal");
+            v = p(max(1, jj-K+1):jj); v = v(v ~= "Normal");   % causal isolation
             if isempty(v), r.iso = "Normal"; else, r.iso = string(mode(categorical(v))); end
         end
     end

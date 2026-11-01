@@ -1,6 +1,6 @@
 {
-  "title": "Explainable Fault Detection and Isolation for Fixed-Wing UAVs Using Physics-Informed Residuals: code and results",
-  "description": "MATLAB code and results for leave-one-flight-out evaluation of physics-informed residual features, a bagged-tree fault detection and isolation model and a SHAP explanation audit on the ALFA fixed-wing UAV dataset.",
+  "title": "Leakage-Aware Evaluation of Explainable Fault Detection for Fixed-Wing UAVs: code and results",
+  "description": "MATLAB and Python code and results for a leakage audit of the ALFA fixed-wing UAV dataset and a leave-one-flight-out, nested evaluation of physics-informed residual features, a bagged-tree fault detection and isolation model and a held-out SHAP audit.",
   "creators": [
     {
       "name": "Abdirayimov, Renat",
