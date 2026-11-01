@@ -1,0 +1,17 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+title: "Explainable Fault Detection and Isolation for Fixed-Wing UAVs Using Physics-Informed Residuals (code and results)"
+authors:
+  - family-names: "Abdirayimov"
+    given-names: "Renat"
+    affiliation: "Tashkent University of Information Technologies named after Muhammad al-Khwarizmi"
+version: "1.0.0"
+date-released: "2026-11-01"
+license: MIT
+repository-code: "https://github.com/renatabdirayimov001/alfa-explainable-fdi"
+keywords:
+  - UAV
+  - fault detection and isolation
+  - explainable AI
+  - SHAP
+  - ALFA dataset

@@ -1,0 +1,5 @@
+Class,Flights,Detected,CorrectlyIsolated,MedianDelay_s
+Engine,23,23,23,4.21698951721191
+Aileron,7,5,5,13.8848743438721
+Rudder,3,2,2,5.98776423931122
+Elevator,2,0,0,NaN
