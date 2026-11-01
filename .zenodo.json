@@ -1,8 +1,20 @@
 {
   "title": "Explainable Fault Detection and Isolation for Fixed-Wing UAVs Using Physics-Informed Residuals: code and results",
   "description": "MATLAB code and results for leave-one-flight-out evaluation of physics-informed residual features, a bagged-tree fault detection and isolation model and a SHAP explanation audit on the ALFA fixed-wing UAV dataset.",
-  "creators": [{"name": "Abdirayimov, Renat", "affiliation": "Tashkent University of Information Technologies named after Muhammad al-Khwarizmi"}],
+  "creators": [
+    {
+      "name": "Abdirayimov, Renat",
+      "affiliation": "Tashkent University of Information Technologies named after Muhammad al-Khwarizmi",
+      "orcid": "0009-0005-3636-8864"
+    }
+  ],
   "license": "MIT",
   "upload_type": "software",
-  "keywords": ["UAV", "fault detection and isolation", "explainable AI", "SHAP", "ALFA dataset"]
+  "keywords": [
+    "UAV",
+    "fault detection and isolation",
+    "explainable AI",
+    "SHAP",
+    "ALFA dataset"
+  ]
 }
