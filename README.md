@@ -1,5 +1,7 @@
 # Explainable Fault Detection and Isolation for Fixed-Wing UAVs Using Physics-Informed Residuals
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23860263.svg)](https://doi.org/10.5281/zenodo.23860263)
+
 MATLAB code and results for the paper submitted to the International Workshop on Applied AI & Mathematical Methods for Real-world Applications (A2MRA 2027), held with ANT 2027, Delft, the Netherlands.
 
 ## What the code does
