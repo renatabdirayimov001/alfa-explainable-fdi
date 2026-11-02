@@ -1,0 +1,9 @@
+Engine,Aileron,Rudder,Elevator,FeatureSet
+13,0,2,0,RAW
+16,2,1,0,RES
+17,2,1,0,RES+CMD
+17,2,2,0,RES+CMD+EFF (proposed)
+22,0,2,0,RAW+THR
+13,7,2,0,RAW+RC
+21,7,2,0,RAW+THR+RC
+23,3,2,0,PROPOSED+THR+RC

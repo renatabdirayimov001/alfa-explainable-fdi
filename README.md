@@ -32,6 +32,7 @@ Unzip it in the repository root so that the folder `processed` (one sub-folder p
 cd code
 alfa_fdi_main   % LOFO evaluation of 4 feature sets, held-out SHAP audit, timing (about 20 min)
 alfa_nested     % nested (tau, K) selection, confidence intervals, McNemar test (same session, about 20 min)
+alfa_leakage_ablation   % leakage and feature ablation at tau = 0.8, K = 7; LOFO vs random window split
 ```
 ```bash
 python code/leakage_audit.py processed
@@ -44,6 +45,22 @@ python code/leakage_audit.py processed
 | RES+CMD+EFF | 0.543 [0.37, 0.71] | 0.514 | 0.95 [0.02, 5.27] | 9.5 |
 
 Exact McNemar test between the two sets: p = 0.69. With the leaking throttle included, the same pipeline reached 0.686 (RAW) and 0.771 (RES+CMD+EFF); these earlier results are kept in `results/v3_with_throttle_leak/` for transparency.
+
+## Leakage and ablation (common operating point tau = 0.8, K = 7)
+Output of `alfa_leakage_ablation.m`, stored in `results/leakage_ablation/`. THR: reported throttle (`vfr_hud`), RC: servo outputs (`rc-out`). p: exact McNemar test against RAW.
+
+| Input | Detected (of 35) | E / A / R / El | FA/h | p vs RAW | Macro-F1 LOFO / random split |
+|---|---|---|---|---|---|
+| RAW | 15 | 13 / 0 / 2 / 0 | 1.89 | - | 0.46 / 0.64 |
+| RES | 19 | 16 / 2 / 1 / 0 | 6.63 | 0.34 | - |
+| RES+CMD | 20 | 17 / 2 / 1 / 0 | 5.68 | 0.18 | - |
+| RES+CMD+EFF (proposed) | 21 | 17 / 2 / 2 / 0 | 0.95 | 0.070 | 0.46 / 0.75 |
+| RAW+THR | 24 | 22 / 0 / 2 / 0 | 0 | 0.004 | - |
+| RAW+RC | 22 | 13 / 7 / 2 / 0 | 0.95 | 0.092 | - |
+| RAW+THR+RC | 30 | 21 / 7 / 2 / 0 | 0 | <0.001 | 0.80 / 0.97 |
+| Proposed+THR+RC | 28 | 23 / 3 / 2 / 0 | 0 | <0.001 | 0.80 / 0.97 |
+
+With the leaking signals, window accuracy is 0.98 under LOFO and 0.99 with a random window split, which matches the 95-100% reported in the literature.
 
 ## Citation
 If you use this code, please cite the paper (see `CITATION.cff`) and the ALFA dataset:
